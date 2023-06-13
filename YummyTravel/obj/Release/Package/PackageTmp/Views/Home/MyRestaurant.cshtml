@@ -1,0 +1,85 @@
+﻿@model List<YummyTravel.Models.NewRestaurant>
+@{
+    ViewBag.Title = "MyRestaurant";
+}
+<ul class="nav nav-tabs mt-3 ml-3" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active"
+           id="myBlog-tab"
+           data-toggle="tab"
+           href="#myBlog"
+           role="tab"
+           aria-controls="myBlog"
+           aria-selected="false">審核區</a>
+    </li>
+    @*<li class="nav-item">
+            <a class="nav-link"
+               id="myBlog-tab"
+               data-toggle="tab"
+               href="#myBlog"
+               role="tab"
+               aria-controls="myBlog"
+               aria-selected="false">我的店家</a>
+        </li>*@
+</ul>
+<div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+        <thead>
+            <tr>
+                <th data-priority="1" class="h6">#</th>
+                <th data-priority="6" class="h6">圖片</th>
+                <th data-priority="1" class="h6">店名</th>
+                <th data-priority="3" class="h6">地址</th>
+                <th data-priority="3" class="h6">電話</th>
+                <th data-priority="6" class="h6">營業時間</th>
+                <th data-priority="1" class="h6">審核狀態</th>
+                @*<th data-priority="6"></th>*@
+            </tr>
+        </thead>
+        @{
+            var num = 0;
+            foreach(var item in Model)
+            {
+                num += 1;
+                <tr>
+                    <th scope="row">@num</th>
+                    <td>
+                        <img id="imgArea" src="@item.RestaurantImg"
+                             width="200"
+                             height="150"
+                             alt="" />
+                    </td>
+                    <td class="h6">@item.RestaurantName</td>
+                    <td class="h6">@item.RestaurantAddress</td>
+                    <td class="h6">@item.RestaurantPhone</td>
+                    <td>
+                        <h6>星期一：@item.Mon</h6>
+                        <h6>星期二：@item.Tue</h6>
+                        <h6>星期三：@item.Wed</h6>
+                        <h6>星期四：@item.Thu</h6>
+                        <h6>星期五：@item.Fri</h6>
+                        <h6>星期六：@item.Sat</h6>
+                        <h6>星期日：@item.Sun</h6>
+                    </td>
+                    @{
+                        if(item.Review == "review")
+                        {
+                            <td class="h6"><span>審核中</span></td>
+                        }
+                        else if(item.Review == "success")
+                        {
+                            <td class="h6"><span>審核成功</span></td>
+                        }
+                        else if(item.Review == "fail")
+                        {
+                            <td class="h6"><span id="reviewType">審核失敗</span></td>
+                        }
+                    }
+                    @*<td class="h6"><i class="fas fa-trash"></i></td>*@
+                </tr>
+
+            }
+        }
+    </table>
+</div>
+

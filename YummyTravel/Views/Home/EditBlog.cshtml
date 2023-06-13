@@ -1,0 +1,49 @@
+﻿@model YummyTravel.Models.Blog
+@{
+    ViewBag.Title = "EditBlog";
+}
+
+<script>
+    $(function () {
+        CKEDITOR.replace('content', {
+            extraPlugins: 'easyimage',
+            cloudServices_tokenUrl: 'https://42974.cke-cs.com/token/dev/oOc7HycHnbyludm51FKZDqPfpKh50hfvMbCrTds6HVhcC6efadrYgLyH6Wfc',
+            cloudServices_uploadUrl: 'https://42974.cke-cs.com/easyimage/upload/',
+            height: '70vh'
+        });
+        $("#title").val("@Model.Title");
+        CKEDITOR.instances.content.setData(htmldecode(htmldecode("@Model.BlogContext")));
+        $("#saveBtn").click(function () {
+            var str = CKEDITOR.instances.content.getData();
+            $.ajax({
+                type: "POST",
+                url: "/Home/NewBlog",
+                dataType: 'json',
+                crossDomain: true,
+                data: {
+                    title: $("#title").val(),
+                    memberId: Number(@Model.MemberId),
+                    restaurantId: Number(@Model.RestaurantId),
+                    context: htmlencode(str)
+                },
+                success: function(data){
+                    window.location.href = data;
+                }
+            });
+        });
+    });
+    
+</script>
+<div>
+    <label for="title" class="left">食記標題：</label>
+    <input id="title" class="right border" name="title" type="text" placeholder="請輸入食記標題" />
+    <div class="my-3">
+        <textarea class="border" id="content" name="content"></textarea>
+    </div>
+    <div class="text-center pb-3">
+        <button class="mx-1 btn btn-primary" id="saveBtn">儲存</button>
+        <form class="d-inline" method="get" action="/Home/Member">
+            <button class="mx-1 btn btn-danger" id="okBtn">離開</button>
+        </form>
+    </div>
+</div>

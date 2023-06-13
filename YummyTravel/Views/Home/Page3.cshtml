@@ -1,0 +1,286 @@
+﻿@model YummyTravel.Models.Restaurant
+@{
+    ViewBag.Title = "結果";
+}
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap" async defer></script>
+
+<script>
+    //地圖
+    var latlng = "@Model.Latlng".split(',');
+    console.log(Number(latlng[0]));
+    console.log(Number(latlng[1]));
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: Number(latlng[0]), lng: Number(latlng[1]) },
+            zoom: 15
+        });
+        var marker = new google.maps.Marker({
+            position: { lat: Number(latlng[0]), lng: Number(latlng[1]) },
+            map: map
+        });
+        addInfoWindow(marker, "@Model.RestaurantName", "@Model.RestaurantAddress");
+    }
+    function addInfoWindow(marker, name, address) {
+        var infoWindow = new google.maps.InfoWindow({
+                content: `${name}<br>${address}`
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open(map, marker);
+            });
+    }
+    //判斷是否登入
+    $(function () {
+        var str = "@Session["memberID"]";
+        if (str != "") {
+            $("#messageLogin").attr("data-target", "#");
+            $("#messageBtn").attr("data-target", "#");
+        }
+    });
+    //留言功能
+    var score = 0.0;
+    $(function () {
+        $('.star').each(function (index) {
+            var star = "/img/star.png";
+            var starRed = "/img/star_yellow.png";
+            var prompt = ['很差', '比較差', '一般', '比較好', '非常好'];
+            var starScore = [1.0, 2.0, 3.0, 4.0, 5.0];
+            this.id = index;
+            $(this).on("mouseover click", function () {
+                $(".star").attr('src', star);
+                $(this).attr("src", starRed);
+                $(this).prevAll().attr("src", starRed);
+                $(this).siblings('span').text(`${prompt[this.id]} ${starScore[this.id].toFixed(1)}`);
+                score = starScore[this.id].toFixed(1);
+            });
+        });
+        $("#messageBtn").click(function () {
+            var str = "@Session["memberID"]";
+            if (str != "") {
+                $.post("/Home/Message",
+                    {
+                        restaurantId: "@ViewContext.RouteData.Values["id"]",
+                        memberId: str,
+                        context: String($("#text").val()),
+                        score: score
+                    });
+
+                if ($(`#member${str}`).length > 0) {
+                    $(`#member${str}`).children("#memberRating").text(`${score}`);
+                    $(`#member${str}`).children("#memberMessage").text(`${$("#text").val()}`);
+                } else {
+                    $("#messageDiv").append(`
+                        <div id="member${str}" class="messageWall">
+                            <img class="prfImg" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
+                            <h2>${$("#memberName").text()}</h2>
+                            <p id="memberRating">${score}</p>
+                            <p id="memberMessage">${$("#text").val()}</p>
+                        </div>`
+                    );
+                }
+            };
+        });
+    });
+</script>
+<!-- 內文開始 -->
+<div class="container mt-5">
+    <div class="row">
+
+        <div id="" class="col-md-8 col-xs-12 alert-light">
+            <div class="row my-3">
+                <div class="col-lg-3 col-sm-4 mb-3 text-center">
+                    <a href="/Home/Page3/@Model.RestaurantId">
+                        @*@{
+                                if (Model.ImgBytes != null)
+                                {
+                                    byte[] photo = Model.ImgBytes == null ? null : Model.ImgBytes as byte[];
+                                    string imageData = null;
+                                    if (photo != null)
+                                    {
+
+                                        string base64 = Convert.ToBase64String(photo);
+                                        imageData = string.Format("data:image/gif;base64,{0}", base64);
+                                    }
+                                    <img src=@imageData class='mr-3' alt='...' width='150' height='100'>
+                                }
+                                else
+                                {
+                                    <img src=@Model.RestaurantImg class='mr-3' alt='...' width='150' height='100'>
+                                }
+                            }*@
+                        <img src=@Model.RestaurantImg class='near-size' alt='...'>
+                    </a>
+                </div>
+                <div class="col-lg-9 col-sm-8">
+                    <div class="space-between">
+                        <div><a href="/Home/Page3/@Model.RestaurantId"><h5>@Model.RestaurantName</h5></a></div>
+                        @{
+                            if (string.IsNullOrEmpty(Convert.ToString(Session["memberID"])))
+                            {
+                                <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#LoginModal">撰寫食記</a>
+                            }
+                            else
+                            {
+                                <a href="/Home/NewBlog/@Model.RestaurantId" class="btn btn-success btn-sm">撰寫食記</a>
+                            }
+                        }
+                    </div>
+                    <span class="badge badge-pill badge-danger">
+                        @Model.Rating ★
+                    </span>
+                    @{
+                        foreach (var item in ViewBag.type)
+                        {
+                            <span class="badge badge-pill badge-primary"><a style="color:white;text-decoration:none;" href="/Home/Page2/@item.TypeId">@item.TypeName</a></span>
+                        }
+                    }
+                    <br>
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> @Model.RestaurantAddress<br>
+                    <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> @Model.RestaurantPhone<br>
+                </div>
+            </div>
+            <input id="account" type="hidden" value="@Session["memberID"]" />
+
+            @*地圖*@
+            <div class="col pg3-map-size" id="map">
+            </div>
+            <br>
+            <br>
+
+            @*食記*@
+            <div>
+                <h3 style="color:black">@Model.RestaurantName 的食記</h3>
+                <div class="alert-light mb-1">
+                    @foreach (var item in ViewBag.Blog)
+                    {
+                        var memberId = "member" + @item.MemberId;
+                        <div class="media">
+                            @{
+                                byte[] photo1 = item.ImgBytes == null ? null : item.ImgBytes as byte[];
+                                string imageData1 = null;
+                                if (photo1 != null)
+                                {
+
+                                    string base64 = Convert.ToBase64String(photo1);
+                                    imageData1 = string.Format("data:image/gif;base64,{0}", base64);
+                                }
+                                <img class="prfImg" src="@imageData1">
+                            }
+                            <div class="media-body">
+                                <h5 class="mt-0 text-warning">@item.NickName</h5>
+                                <p id="memberMessage"><a href="/Home/BlogText/@item.BlogId">@item.Title</a></p>
+                                <hr />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <br>
+            <br>
+
+            @*留言板*@
+            <div class="">
+                <hr>
+                <h3 style="color:black">@Model.RestaurantName 的評論</h3>
+                <div id="messageLogin" data-toggle="modal" data-target="">
+                    @{
+                        if (string.IsNullOrEmpty(Convert.ToString(Session["memberID"])))
+                        {
+                            <img class="prfImg" src="~/img/profilePicture.jpg">
+
+                        }
+                        else
+                        {
+                            foreach (var item in ViewBag.member)
+                            {
+                                byte[] photo1 = item.Image == null ? null : item.Image as byte[];
+                                string imageData1 = null;
+                                if (photo1 != null)
+                                {
+                                    string base64 = Convert.ToBase64String(photo1);
+                                    imageData1 = string.Format("data:image/gif;base64,{0}", base64);
+                                }
+                                <img class="prfImg" src="@imageData1">
+                            }
+                        }
+                    }
+                    <span id="memberName">@Session["str"]</span>
+                </div>
+            </div>
+            <div class="mb-2">
+                <span class="star_l">
+                    滿意度：
+                    <img class="star" src="~/img/star.png" />
+                    <img class="star" src="~/img/star.png" />
+                    <img class="star" src="~/img/star.png" />
+                    <img class="star" src="~/img/star.png" />
+                    <img class="star" src="~/img/star.png" />
+                    <span></span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="m_flo" for="text">
+                    內　容：
+                </label>
+                <textarea class="form-control txt-area" style="vertical-align:top"></textarea>
+                <button id="messageBtn" class="btn btn-sm btn-success" data-toggle="modal" data-target="#LoginModal" style="vertical-align:bottom">確認</button>
+            </div>
+            <hr>
+            <div class="alert-light mb-1">
+                @foreach (var item in ViewBag.message)
+                {
+                    var memberId = "member" + @item.MemberId;
+                    <div class="media">
+                        @{
+                            byte[] photo = item.Image == null ? null : item.Image as byte[];
+                            string imageData = null;
+                            if (photo != null)
+                            {
+
+                                string base64 = Convert.ToBase64String(photo);
+                                imageData = string.Format("data:image/gif;base64,{0}", base64);
+                            }
+                            <img class="prfImg" src="@imageData">
+                        }
+                        <div class="media-body">
+                            <h5 class="mt-0 text-info">@item.Nickname</h5>
+                            <p id="memberRating" class="text-danger"><span class="badge badge-pill badge-danger">@item.Rating.ToString("#0.0") ★</span></p>
+                            <p id="memberMessage">@item.Message</p>
+                            <hr />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-4 pt-2 col-xs-12 pr-0">
+            <ul class="list-unstyled">
+                <li><h3 class="text-center">相似餐廳</h3></li>
+                @foreach (var item in ViewBag.similarRestaurant)
+                {
+                    <li class='mb-3'>
+                        <div class="row justify-content-center w-100 m-0">
+                            <div class="col-xl-5 col-lg-12 text-center p-0">
+                                <a href="/Home/Page3/@item.RestaurantId"><img src=@item.RestaurantImg class='near-btm-size' alt='...'></a>
+                            </div>
+                            <div class="col-xl-7 col-lg-12 text-xl-left text-center pl-2">
+                                <div class=''>
+                                    <a href="/Home/Page3/@item.RestaurantId"><h5 class='mt-0 mb-1'>@item.RestaurantName</h5></a>
+                                    <span class="badge badge-pill badge-danger">@item.Rating.ToString("#0.0") ★</span>
+                                    <br>
+                                    @foreach (var item1 in ViewBag.randomType)
+                                    {
+                                        if (item1.RestaurantId == item.RestaurantId)
+                                        {
+                                            <span class="badge badge-pill badge-primary"><a style="color:white;text-decoration:none;" href="/Home/Page2/@item1.TypeId">@item1.TypeName</a></span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 內文結束 -->

@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FoodTourDBModelStoreContainer" CdmEntityContainer="FoodTourDBEntities">
+    <EntitySetMapping Name="FoodTypes">
+      <EntityTypeMapping TypeName="FoodTourDBModel.FoodType">
+        <MappingFragment StoreEntitySet="FoodType">
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="FoodTourDBModel.Member">
+        <MappingFragment StoreEntitySet="Members">
+          <ScalarProperty Name="Img" ColumnName="Img" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MemberToRestaurants">
+      <EntityTypeMapping TypeName="FoodTourDBModel.MemberToRestaurant">
+        <MappingFragment StoreEntitySet="MemberToRestaurant">
+          <ScalarProperty Name="MemberToRestaurantId" ColumnName="MemberToRestaurantId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Restaurants">
+      <EntityTypeMapping TypeName="FoodTourDBModel.Restaurant">
+        <MappingFragment StoreEntitySet="Restaurant">
+          <ScalarProperty Name="ImgBytes" ColumnName="ImgBytes" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+          <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+          <ScalarProperty Name="RestaurantAddress" ColumnName="RestaurantAddress" />
+          <ScalarProperty Name="RestaurantPhone" ColumnName="RestaurantPhone" />
+          <ScalarProperty Name="RestaurantImg" ColumnName="RestaurantImg" />
+          <ScalarProperty Name="Mon" ColumnName="Mon" />
+          <ScalarProperty Name="Tue" ColumnName="Tue" />
+          <ScalarProperty Name="Wed" ColumnName="Wed" />
+          <ScalarProperty Name="Thu" ColumnName="Thu" />
+          <ScalarProperty Name="Fri" ColumnName="Fri" />
+          <ScalarProperty Name="Sat" ColumnName="Sat" />
+          <ScalarProperty Name="Sun" ColumnName="Sun" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Latlng" ColumnName="Latlng" />
+          <ScalarProperty Name="PlaceId" ColumnName="PlaceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RestaurantToTypes">
+      <EntityTypeMapping TypeName="FoodTourDBModel.RestaurantToType">
+        <MappingFragment StoreEntitySet="RestaurantToType">
+          <ScalarProperty Name="RestaurantToTypeId" ColumnName="RestaurantToTypeId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FoodSearches">
+      <EntityTypeMapping TypeName="FoodTourDBModel.FoodSearch">
+        <MappingFragment StoreEntitySet="FoodSearch">
+          <ScalarProperty Name="ImgBytes" ColumnName="ImgBytes" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RestaurantImg" ColumnName="RestaurantImg" />
+          <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="RestaurantAddress" ColumnName="RestaurantAddress" />
+          <ScalarProperty Name="RestaurantPhone" ColumnName="RestaurantPhone" />
+          <ScalarProperty Name="Latlng" ColumnName="Latlng" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Mon" ColumnName="Mon" />
+          <ScalarProperty Name="Tue" ColumnName="Tue" />
+          <ScalarProperty Name="Wed" ColumnName="Wed" />
+          <ScalarProperty Name="Thu" ColumnName="Thu" />
+          <ScalarProperty Name="Fri" ColumnName="Fri" />
+          <ScalarProperty Name="Sat" ColumnName="Sat" />
+          <ScalarProperty Name="Sun" ColumnName="Sun" />
+          <ScalarProperty Name="PlaceId" ColumnName="PlaceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="FoodTourDBModel.Message">
+        <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Context" ColumnName="Context" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Blogs">
+      <EntityTypeMapping TypeName="FoodTourDBModel.Blog">
+        <MappingFragment StoreEntitySet="Blog">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BlogContext" ColumnName="BlogContext" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="BlogId" ColumnName="BlogId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewRestaurants">
+      <EntityTypeMapping TypeName="FoodTourDBModel.NewRestaurant">
+        <MappingFragment StoreEntitySet="NewRestaurant">
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Review" ColumnName="Review" />
+          <ScalarProperty Name="ImgBytes" ColumnName="ImgBytes" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Sun" ColumnName="Sun" />
+          <ScalarProperty Name="Sat" ColumnName="Sat" />
+          <ScalarProperty Name="Fri" ColumnName="Fri" />
+          <ScalarProperty Name="Thu" ColumnName="Thu" />
+          <ScalarProperty Name="Wed" ColumnName="Wed" />
+          <ScalarProperty Name="Tue" ColumnName="Tue" />
+          <ScalarProperty Name="Mon" ColumnName="Mon" />
+          <ScalarProperty Name="RestaurantImg" ColumnName="RestaurantImg" />
+          <ScalarProperty Name="RestaurantPhone" ColumnName="RestaurantPhone" />
+          <ScalarProperty Name="RestaurantAddress" ColumnName="RestaurantAddress" />
+          <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+          <ScalarProperty Name="newId" ColumnName="newId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

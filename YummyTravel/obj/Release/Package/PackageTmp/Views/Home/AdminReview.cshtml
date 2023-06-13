@@ -1,0 +1,241 @@
+﻿@model List<YummyTravel.Models.NewRestaurant>
+@{
+    ViewBag.Title = "AdminReview";
+}
+
+<script>
+    $(function () {
+        $("#okBtn").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/ReviewSuccess",
+                dataType: 'json',
+                crossDomain: true,
+                data: {
+                    review: "success",
+                    id: $("#okBtn").val()
+                },
+                success: function(data){
+                    window.location.href = data;
+                }
+            });
+        });
+        $("#failBtn").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/ReviewFail",
+                dataType: 'json',
+                crossDomain: true,
+                data: {
+                    review: "fail",
+                    id: $("#failBtn").val()
+                },
+                success: function(data){
+                    window.location.href = data;
+                }
+            });
+        });
+    });
+</script>
+<ul class="nav nav-tabs mt-3 ml-3" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active"
+           id="myBlog-tab"
+           data-toggle="tab"
+           href="#myBlog"
+           role="tab"
+           aria-controls="myBlog"
+           aria-selected="false">審核區</a>
+    </li>
+</ul>
+
+<div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+        <thead>
+            <tr>
+                <th data-priority="1" class="h6">#</th>
+                <th data-priority="6" class="h6">圖片</th>
+                <th data-priority="1" class="h6">店名</th>
+                <th data-priority="3" class="h6">地址</th>
+                <th data-priority="4" class="h6">電話</th>
+                <th data-priority="4" class="h6">類別</th>
+                <th data-priority="6" class="h6">營業時間</th>
+                <th data-priority="1" class="h6">審核狀態</th>
+                <th data-priority="1" class="h6">操作</th>
+                @*<th data-priority="6" class="h6"></th>*@
+            </tr>
+        </thead>
+        @{
+            var num = 0;
+            foreach(var item in Model)
+            {
+                num += 1;
+                <tr>
+                    <th scope="row">@num</th>
+                    <td>
+                        <img id="imgArea" src="@item.RestaurantImg"
+                             width="200"
+                             height="150"
+                             alt="" />
+                    </td>
+                    <td class="h6">@item.RestaurantName</td>
+                    <td class="h6">@item.RestaurantAddress</td>
+                    <td class="h6">@item.RestaurantPhone</td>
+                    @{
+                        switch (item.TypeId)
+                        {
+                            case 1:
+                                <td class="h6">火鍋</td>
+                                break;
+                            case 2:
+                                <td class="h6">早午餐</td>
+                                break;
+                            case 3:
+                                <td class="h6">小吃</td>
+                                break;
+                            case 4:
+                                <td class="h6">餐酒館</td>
+                                break;
+                            case 5:
+                                <td class="h6">精緻高級</td>
+                                break;
+                            case 6:
+                                <td class="h6">甜點</td>
+                                break;
+                            case 7:
+                                <td class="h6">燒烤</td>
+                                break;
+                            case 8:
+                                <td class="h6">日式料理</td>
+                                break;
+                            case 9:
+                                <td class="h6">義式料理</td>
+                                break;
+                            case 10:
+                                <td class="h6">中式料理</td>
+                                break;
+                            case 11:
+                                <td class="h6">韓式料理</td>
+                                break;
+                            case 12:
+                                <td class="h6">泰式料理</td>
+                                break;
+                            case 13:
+                                <td class="h6">美式料理</td>
+                                break;
+                            case 14:
+                                <td class="h6">港式料理</td>
+                                break;
+                            case 15:
+                                <td class="h6">冰品飲料</td>
+                                break;
+                            case 16:
+                                <td class="h6">宵夜</td>
+                                break;
+                        }
+                    }
+                    <td>
+                        <h6>星期一：@item.Mon</h6>
+                        <h6>星期二：@item.Tue</h6>
+                        <h6>星期三：@item.Wed</h6>
+                        <h6>星期四：@item.Thu</h6>
+                        <h6>星期五：@item.Fri</h6>
+                        <h6>星期六：@item.Sat</h6>
+                        <h6>星期日：@item.Sun</h6>
+                    </td>
+                    @{
+                        if (item.Review == "review")
+                        {
+                            <td class="h6"><span>審核中</span></td>
+                        }
+                        else if (item.Review == "success" || item.Review == "fail")
+                        {
+                            <td class="h6"><span>已審核</span></td>
+                        }
+                    }
+                    <td>
+                        <button id="okBtn" class="btn btn-primary btn-block" value="@item.newId">同意</button><br />
+                        <button id="failBtn" class="btn btn-danger btn-block" value="@item.newId">不同意</button>
+                    </td>
+                    @*<td class="h6">
+            <i class="fas fa-trash"></i>
+        </td>*@
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+
+
+
+
+
+
+@*<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active"
+         id="favoriteStore"
+         role="tabpanel"
+         aria-labelledby="favoriteStore-tab">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">圖片</th>
+                    <th scope="col">店名</th>
+                    <th scope="col">地址</th>
+                    <th scope="col">電話</th>
+                    <th scope="col">營業時間</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var num = 0;
+                    foreach(var item in Model)
+                    {
+                        num += 1;
+                        <tr>
+                            <th scope="row">@num</th>
+                            <td>
+
+                                <img id="imgArea" src="@item.RestaurantImg"
+                                     width="300"
+                                     height="200"
+                                     alt="" />
+                            </td>
+                            <td>@item.RestaurantName</td>
+                            <td>@item.RestaurantAddress</td>
+                            <td>@item.RestaurantPhone</td>
+                            <td>
+                                星期一:@item.Mon<br>
+                                星期二:@item.Tue<br>
+                                星期三:@item.Wed<br>
+                                星期四:@item.Thu<br>
+                                星期五:@item.Fri<br>
+                                星期六:@item.Sat<br>
+                                星期日:@item.Sun
+                            </td>
+                            @{
+                                if(item.Review == "review")
+                                {
+                                    <td><span id="reviewType">審核中</span></td>
+                                }
+                                else if(item.Review == "success")
+                                {
+                                    <td><span id="reviewType">審核成功</span></td>
+                                }
+                                else if(item.Review == "fail")
+                                {
+                                    <td><span id="reviewType">審核失敗</span></td>
+                                }
+                            }
+                            <td><button id="okBtn" value="@item.newId">成功</button><button id="failBtn" value="@item.newId">失敗</button></td>
+                            <td><i class="fas fa-trash"></i></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>*@
+

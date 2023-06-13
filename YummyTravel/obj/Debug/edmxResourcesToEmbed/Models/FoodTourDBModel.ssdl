@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodTourDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Blog">
+    <Key>
+      <PropertyRef Name="BlogId" />
+    </Key>
+    <Property Name="BlogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="RestaurantId" Type="int" />
+    <Property Name="BlogContext" Type="nvarchar(max)" />
+    <Property Name="Title" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="FoodType">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Account" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Nickname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Image" Type="varbinary(max)" />
+    <Property Name="Img" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="MemberToRestaurant">
+    <Key>
+      <PropertyRef Name="MemberToRestaurantId" />
+    </Key>
+    <Property Name="MemberToRestaurantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="RestaurantId" Type="int" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="MessageId" />
+    </Key>
+    <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RestaurantId" Type="int" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="Context" Type="nvarchar(max)" />
+    <Property Name="Rating" Type="float" />
+  </EntityType>
+  <EntityType Name="NewRestaurant">
+    <Key>
+      <PropertyRef Name="newId" />
+    </Key>
+    <Property Name="newId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RestaurantName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RestaurantAddress" Type="nvarchar" MaxLength="200" />
+    <Property Name="RestaurantPhone" Type="nvarchar" MaxLength="25" />
+    <Property Name="RestaurantImg" Type="nvarchar" MaxLength="255" />
+    <Property Name="Mon" Type="nvarchar" MaxLength="100" />
+    <Property Name="Tue" Type="nvarchar" MaxLength="100" />
+    <Property Name="Wed" Type="nvarchar" MaxLength="100" />
+    <Property Name="Thu" Type="nvarchar" MaxLength="100" />
+    <Property Name="Fri" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sat" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sun" Type="nvarchar" MaxLength="100" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="ImgBytes" Type="varbinary(max)" />
+    <Property Name="Review" Type="nvarchar" MaxLength="50" />
+    <Property Name="TypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="RestaurantId" />
+    </Key>
+    <Property Name="RestaurantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RestaurantName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RestaurantAddress" Type="nvarchar" MaxLength="200" />
+    <Property Name="RestaurantPhone" Type="nvarchar" MaxLength="25" />
+    <Property Name="RestaurantImg" Type="nvarchar" MaxLength="255" />
+    <Property Name="Mon" Type="nvarchar" MaxLength="100" />
+    <Property Name="Tue" Type="nvarchar" MaxLength="100" />
+    <Property Name="Wed" Type="nvarchar" MaxLength="100" />
+    <Property Name="Thu" Type="nvarchar" MaxLength="100" />
+    <Property Name="Fri" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sat" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sun" Type="nvarchar" MaxLength="100" />
+    <Property Name="Rating" Type="float" />
+    <Property Name="Latlng" Type="nvarchar" MaxLength="100" />
+    <Property Name="PlaceId" Type="nvarchar" MaxLength="100" />
+    <Property Name="Type" Type="nchar" MaxLength="10" />
+    <Property Name="Cost" Type="float" />
+    <Property Name="ImgBytes" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="RestaurantToType">
+    <Key>
+      <PropertyRef Name="RestaurantToTypeId" />
+    </Key>
+    <Property Name="RestaurantToTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeId" Type="int" />
+    <Property Name="RestaurantId" Type="int" />
+  </EntityType>
+  <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'FoodTourDB.dbo.FoodSearch' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+  <EntityType Name="FoodSearch">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="RestaurantId" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="RestaurantId" Type="int" Nullable="false" />
+    <Property Name="RestaurantImg" Type="nvarchar" MaxLength="255" />
+    <Property Name="RestaurantName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Rating" Type="float" />
+    <Property Name="RestaurantAddress" Type="nvarchar" MaxLength="200" />
+    <Property Name="RestaurantPhone" Type="nvarchar" MaxLength="25" />
+    <Property Name="Latlng" Type="nvarchar" MaxLength="100" />
+    <Property Name="TypeName" Type="nvarchar(max)" />
+    <Property Name="Mon" Type="nvarchar" MaxLength="100" />
+    <Property Name="Tue" Type="nvarchar" MaxLength="100" />
+    <Property Name="Wed" Type="nvarchar" MaxLength="100" />
+    <Property Name="Thu" Type="nvarchar" MaxLength="100" />
+    <Property Name="Fri" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sat" Type="nvarchar" MaxLength="100" />
+    <Property Name="Sun" Type="nvarchar" MaxLength="100" />
+    <Property Name="PlaceId" Type="nvarchar" MaxLength="100" />
+    <Property Name="Type" Type="nchar" MaxLength="10" />
+    <Property Name="Cost" Type="float" />
+    <Property Name="ImgBytes" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Blog_Members">
+    <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+    <End Role="Blog" Type="Self.Blog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="Blog">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Blog_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="Blog" Type="Self.Blog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="Blog">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MemberToRestaurant_Members">
+    <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+    <End Role="MemberToRestaurant" Type="Self.MemberToRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="MemberToRestaurant">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MemberToRestaurant_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="MemberToRestaurant" Type="Self.MemberToRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="MemberToRestaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Message_Members">
+    <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Message_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NewRestaurant_Members">
+    <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+    <End Role="NewRestaurant" Type="Self.NewRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="NewRestaurant">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RestaurantToType_FoodType">
+    <End Role="FoodType" Type="Self.FoodType" Multiplicity="0..1" />
+    <End Role="RestaurantToType" Type="Self.RestaurantToType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodType">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="RestaurantToType">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RestaurantToType_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="RestaurantToType" Type="Self.RestaurantToType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="RestaurantToType">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoodTourDBModelStoreContainer">
+    <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodType" EntityType="Self.FoodType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MemberToRestaurant" EntityType="Self.MemberToRestaurant" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NewRestaurant" EntityType="Self.NewRestaurant" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RestaurantToType" EntityType="Self.RestaurantToType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodSearch" EntityType="Self.FoodSearch" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [FoodSearch].[ID] AS [ID], 
+    [FoodSearch].[RestaurantId] AS [RestaurantId], 
+    [FoodSearch].[RestaurantImg] AS [RestaurantImg], 
+    [FoodSearch].[RestaurantName] AS [RestaurantName], 
+    [FoodSearch].[Rating] AS [Rating], 
+    [FoodSearch].[RestaurantAddress] AS [RestaurantAddress], 
+    [FoodSearch].[RestaurantPhone] AS [RestaurantPhone], 
+    [FoodSearch].[Latlng] AS [Latlng], 
+    [FoodSearch].[TypeName] AS [TypeName], 
+    [FoodSearch].[Mon] AS [Mon], 
+    [FoodSearch].[Tue] AS [Tue], 
+    [FoodSearch].[Wed] AS [Wed], 
+    [FoodSearch].[Thu] AS [Thu], 
+    [FoodSearch].[Fri] AS [Fri], 
+    [FoodSearch].[Sat] AS [Sat], 
+    [FoodSearch].[Sun] AS [Sun], 
+    [FoodSearch].[PlaceId] AS [PlaceId], 
+    [FoodSearch].[Type] AS [Type], 
+    [FoodSearch].[Cost] AS [Cost], 
+    [FoodSearch].[ImgBytes] AS [ImgBytes]
+    FROM [dbo].[FoodSearch] AS [FoodSearch]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Blog_Members" Association="Self.FK_Blog_Members">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="Blog" EntitySet="Blog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Blog_Restaurant" Association="Self.FK_Blog_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="Blog" EntitySet="Blog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MemberToRestaurant_Members" Association="Self.FK_MemberToRestaurant_Members">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="MemberToRestaurant" EntitySet="MemberToRestaurant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MemberToRestaurant_Restaurant" Association="Self.FK_MemberToRestaurant_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="MemberToRestaurant" EntitySet="MemberToRestaurant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Message_Members" Association="Self.FK_Message_Members">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="Message" EntitySet="Message" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Message_Restaurant" Association="Self.FK_Message_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="Message" EntitySet="Message" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NewRestaurant_Members" Association="Self.FK_NewRestaurant_Members">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="NewRestaurant" EntitySet="NewRestaurant" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RestaurantToType_FoodType" Association="Self.FK_RestaurantToType_FoodType">
+      <End Role="FoodType" EntitySet="FoodType" />
+      <End Role="RestaurantToType" EntitySet="RestaurantToType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RestaurantToType_Restaurant" Association="Self.FK_RestaurantToType_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="RestaurantToType" EntitySet="RestaurantToType" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

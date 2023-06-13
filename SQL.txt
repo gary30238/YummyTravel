@@ -1,0 +1,18 @@
+use FoodTourDB
+go
+
+create table Blog (
+  BlogId int identity not null primary key,
+  MemberId int,
+  RestaurantId int,
+  BlogContext nvarchar(Max)
+)
+go
+
+alter table Blog  with check add constraint FK_Blog_Members foreign key (MemberId)
+references Members (MemberId)
+go
+
+alter table Blog  with check add constraint FK_Blog_Restaurant foreign key (RestaurantId)
+references Restaurant (RestaurantId)
+go

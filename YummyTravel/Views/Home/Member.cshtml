@@ -1,0 +1,245 @@
+﻿@model List<YummyTravel.Models.FavoriteRestaurant>
+@{
+    ViewBag.Title = "Member";
+}
+    <script>
+    $(function () {
+        var num = 0;
+        @foreach(var item in ViewBag.blog)
+        {
+                @:var str = "@item.BlogContext";
+                @:var decode = htmldecode(htmldecode(htmldecode(str)));
+                @:num += 1
+                @:$("#myBlogTr").append(`<tr><th scope='row'>${num}</th><td>@item.RestaurantName</td><td>${decode.substring(0,30)}...<a class='read' href='/Home/BlogText/@item.BlogId'>繼續閱讀</a></td><td><span><a href="/Home/EditBlog/@item.BlogId" style="text-decoration:none;" class="glyphicon glyphicon-pencil text-info"></a>  <a href="/Home/RemoveBlog/@item.BlogId" style="text-decoration:none;" class="glyphicon glyphicon-remove text-danger"></a></span></td><i class='fas fa-trash'></i></td></tr>`);
+         }
+
+        $(".read").click(function () {
+            $.post("/")
+        });
+        //$("#delete").click(function () {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/Home/FavoriteDelete",
+        //        dataType: 'json',
+        //        crossDomain: true,
+        //        data: {
+        //            account: Number($("#memberId").val()),
+        //            favoriteId: Number($(this).val())
+        //        },
+        //        success: function(data){
+        //            window.location.href = data;
+        //        }
+        //    });
+        //    alert("已移除我的最愛");
+        //});
+    });
+    function htmlencode(s) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(s));
+        return div.innerHTML;
+    }
+    function htmldecode(s) {
+        var div = document.createElement('div');
+        div.innerHTML = s;
+        return div.innerText || div.textContent;
+    }
+    </script>
+
+<ul class="nav nav-tabs mt-3 ml-3 pt-3" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active"
+           id="myBlog-tab"
+           data-toggle="tab"
+           href="#myBlog"
+           role="tab"
+           aria-controls="myBlog"
+           aria-selected="false">我的食記</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"
+           id="favoriteStore-tab"
+           data-toggle="tab"
+           href="#favoriteStore"
+           role="tab"
+           aria-controls="favoriteStore"
+           aria-selected="true">收藏的店家</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"
+           id="favoriteBlog-tab"
+           data-toggle="tab"
+           href="#favoriteBlog"
+           role="tab"
+           aria-controls="favoriteBlog"
+           aria-selected="false">收藏的食記</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"
+           id="memberInfo-tab"
+           data-toggle="tab"
+           href="#memberInfo"
+           role="tab"
+           aria-controls="memberInfo"
+           aria-selected="false">個人資料</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active"
+         id="myBlog"
+         role="tabpanel"
+         aria-labelledby="myBlog-tab">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">店名</th>
+                    <th scope="col">描述</th>
+                    <th scope="col"><span>編輯</span></th>
+                </tr>
+            </thead>
+            <tbody id="myBlogTr">
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade"
+         id="favoriteStore"
+         role="tabpanel"
+         aria-labelledby="favoriteStore-tab">
+        <input id="memberId" type="hidden" value="@Session["memberId"]" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" class="tog-hid">圖片</th>
+                    <th scope="col">店名</th>
+                    <th scope="col">地址</th>
+                    <th scope="col">電話</th>
+                    <th width="60" scope="col">刪除</th>
+                </tr>
+            </thead>
+            <tbody id="favoriteTbody"> 
+                @{
+                    var num = 0;
+                    foreach (var item in Model)
+                    {
+                        num += 1;
+                        <tr class="favoriteTr">
+                            <th scope="row">@num</th>
+                            <td class="tog-hid">
+                                <a href="/Home/Page3/@item.RestaurantId">
+                                    <img class="img-size" src="@item.RestaurantImg"
+                                         alt="" />
+                                </a>
+                            </td>
+                            <td>@item.RestaurantName</td>
+                            <td>@item.RestaurantAddress</td>
+                            <td>@item.RestaurantPhone</td>
+                            <td><a href="/Home/FavoriteDelete/@item.RestaurantId" id="delete"><i class="glyphicon glyphicon-remove text-danger"></i></a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane fade"
+         id="favoriteBlog"
+         role="tabpanel"
+         aria-labelledby="favoriteBlog-tab">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">店名</th>
+                    <th scope="col">描述</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="favoriteBlog"></tr>
+            </tbody>
+        </table>
+    </div>
+    @*<會員資料>*@
+    <div class="tab-pane fade"
+         id="memberInfo"
+         role="tabpanel"
+         aria-labelledby="memberInfo-tab">
+        <form method="post" action="~/Home/MemberInfo" enctype="multipart/form-data">
+            <div class="row mt-3">
+
+                @{
+                    foreach(var item in ViewBag.member)
+                    {
+                        byte[] photo = item.Image == null ? null : item.Image as byte[];
+                        string imageData = null;
+                        if(photo != null)
+                        {
+                            string base64 = Convert.ToBase64String(photo);
+                            imageData = string.Format("data:image/gif;base64,{0}", base64);
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center h4 my-3 text-primary">會員資料</div>
+                                    <div class="col-lg-6 col-sm-12 text-center">
+                                        <img id="imgArea" src="@imageData"
+                                                width="150"
+                                                alt="" />
+                                        <div>
+                                            <p>變更大頭照</p>
+                                            <input class="mb-3" value="@TempData["img"]" onchange="onLoadFile()" id="img" name="img" type="file" accept="image/png, image/jpeg, image/gif, image/jpg"
+                                                    aria-describedby="inputGroupFileAddon04">
+                                            <img style="width:50px" id="imgArea" src="" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12">
+                                        <h5>帳號：@item.Account</h5>
+                                        <h5>暱稱：@item.Nickname</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center h4 my-3 text-primary">會員資料</div>
+                                    <div class="col-lg-6 col-sm-12 text-center">
+                                        <p>上傳大頭照</p>
+                                        <input class="mb-3" value="@TempData["img"]" onchange="onLoadFile()" id="img" name="img" type="file" accept="image/png, image/jpeg, image/gif, image/jpg"
+                                               aria-describedby="inputGroupFileAddon04">
+                                        <img style="width:150px" id="imgArea" src="" alt="">
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12">
+                                        <h5>帳號：@item.Account</h5>
+                                        <h5>暱稱：@item.Nickname</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-12 text-center h4 mt-3 text-primary">修改資料</div>
+                                <div class="form-group col-lg-6 col-sm-12">
+                                    <label class="control-label" for="nickname">修改暱稱</label>
+                                    <input value="" id="nickname" name="nickname" type="text" placeholder="請勿超過6個中文字" class="form-control input-md">
+                                </div>
+                                <!-- Password input-->
+                                <div class="form-group col-lg-6 col-sm-12">
+                                    <label class="control-label" for="password">修改密碼</label>
+                                    <input id="password" name="password" type="password" placeholder="" class="form-control input-md">
+                                    <label class="control-label" for="checkpwdinput">再輸入一次密碼</label>
+                                    <input id="checkpwdinput" name="checkpwdinput" type="password" placeholder="" class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+                                <input value="@item.Account" id="account" name="account" type="email" hidden="hidden">
+                    }
+                }
+            </div>
+            <div class="col-lg-12 text-center"><button id="submitbtn" name="submitbtn" class="btn btn-primary">送出</button></div>
+            <input id="actionResult" name="actionResult" type="hidden" value="@ViewContext.RouteData.Values["action"]/@ViewContext.RouteData.Values["id"]@ViewBag.page" />
+        </form>
+    </div>
+</div>
+
+

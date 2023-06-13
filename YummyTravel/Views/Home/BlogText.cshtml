@@ -1,0 +1,22 @@
+﻿@model List<YummyTravel.Models.Blog>
+@{
+    ViewBag.Title = "BlogText";
+}
+<style>
+    img {
+        max-width: 90%;
+    }
+</style>
+<script>
+    $(function () {
+        @foreach (var item in Model)
+        {
+            @:var str = "@item.BlogContext";
+            @:var decode = htmldecode(htmldecode(str));
+            @:$("#blogDiv").append(`<h5 class="text-center py-3">@item.Title</h5><div class="h-100 bg-white p-3">${decode}</div>`);
+        }
+
+    });
+</script>
+<div id="blogDiv"></div>
+

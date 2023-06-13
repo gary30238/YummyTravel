@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="FoodTourDBEntities-Web.config Connection String" description="FoodTourDBEntities 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="metadata=res://*/Models.FoodTourDBModel.csdl|res://*/Models.FoodTourDBModel.ssdl|res://*/Models.FoodTourDBModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=tcfood.database.windows.net;initial catalog=FoodTourDB;persist security info=True;user id=food;password=IIIStudy@11;multipleactiveresultsets=True;application name=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\user\\Desktop\\Boyen\\Food\\YummyTravel\\YummyTravel\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='FoodTourDBEntities']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9ee456cf91c94329bb9ab3a9c54e42fd" Name="Diagram1">
+        <EntityTypeShape EntityType="FoodTourDBModel.FoodType" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodTourDBModel.Member" Width="1.5" PointX="0.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodTourDBModel.MemberToRestaurant" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodTourDBModel.Restaurant" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodTourDBModel.RestaurantToType" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodTourDBModel.FoodSearch" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="FoodTourDBModel.FK_RestaurantToType_FoodType" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodTourDBModel.FK_MemberToRestaurant_Members" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodTourDBModel.FK_MemberToRestaurant_Restaurant" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodTourDBModel.FK_RestaurantToType_Restaurant" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FoodTourDBModel.Message" Width="1.5" PointX="3.375" PointY="7.75" />
+        <AssociationConnector Association="FoodTourDBModel.FK_Message_Message" />
+        <AssociationConnector Association="FoodTourDBModel.FK_Message_Members" />
+        <AssociationConnector Association="FoodTourDBModel.FK_Message_Restaurant" />
+        <EntityTypeShape EntityType="FoodTourDBModel.Blog" Width="1.5" PointX="6" PointY="7.25" />
+        <AssociationConnector Association="FoodTourDBModel.FK_Blog_Members" />
+        <AssociationConnector Association="FoodTourDBModel.FK_Blog_Restaurant" />
+        <EntityTypeShape EntityType="FoodTourDBModel.NewRestaurant" Width="1.5" PointX="8.375" PointY="0.75" />
+        <AssociationConnector Association="FoodTourDBModel.FK_NewRestaurant_Members" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

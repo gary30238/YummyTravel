@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodTourDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="FoodType">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="RestaurantToTypes" Relationship="Self.FK_RestaurantToType_FoodType" FromRole="FoodType" ToRole="RestaurantToType" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MemberToRestaurants" Relationship="Self.FK_MemberToRestaurant_Members" FromRole="Members" ToRole="MemberToRestaurant" />
+    <NavigationProperty Name="Messages" Relationship="FoodTourDBModel.FK_Message_Members" FromRole="Member" ToRole="Message" />
+    <NavigationProperty Name="Blogs" Relationship="FoodTourDBModel.FK_Blog_Members" FromRole="Member" ToRole="Blog" />
+    <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="NewRestaurants" Relationship="FoodTourDBModel.FK_NewRestaurant_Members" FromRole="Member" ToRole="NewRestaurant" />
+    <Property Name="Img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="MemberToRestaurant">
+    <Key>
+      <PropertyRef Name="MemberToRestaurantId" />
+    </Key>
+    <Property Name="MemberToRestaurantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="RestaurantId" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_MemberToRestaurant_Members" FromRole="MemberToRestaurant" ToRole="Members" />
+    <NavigationProperty Name="Restaurant" Relationship="Self.FK_MemberToRestaurant_Restaurant" FromRole="MemberToRestaurant" ToRole="Restaurant" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="RestaurantId" />
+    </Key>
+    <Property Name="RestaurantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RestaurantName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantPhone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantImg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Mon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Tue" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Wed" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Thu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Fri" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sat" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sun" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Double" />
+    <Property Name="Latlng" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PlaceId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MemberToRestaurants" Relationship="Self.FK_MemberToRestaurant_Restaurant" FromRole="Restaurant" ToRole="MemberToRestaurant" />
+    <NavigationProperty Name="RestaurantToTypes" Relationship="Self.FK_RestaurantToType_Restaurant" FromRole="Restaurant" ToRole="RestaurantToType" />
+    <NavigationProperty Name="Messages" Relationship="FoodTourDBModel.FK_Message_Restaurant" FromRole="Restaurant" ToRole="Message" />
+    <NavigationProperty Name="Blogs" Relationship="FoodTourDBModel.FK_Blog_Restaurant" FromRole="Restaurant" ToRole="Blog" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Cost" Type="Double" />
+    <Property Name="ImgBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="RestaurantToType">
+    <Key>
+      <PropertyRef Name="RestaurantToTypeId" />
+    </Key>
+    <Property Name="RestaurantToTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeId" Type="Int32" />
+    <Property Name="RestaurantId" Type="Int32" />
+    <NavigationProperty Name="FoodType" Relationship="Self.FK_RestaurantToType_FoodType" FromRole="RestaurantToType" ToRole="FoodType" />
+    <NavigationProperty Name="Restaurant" Relationship="Self.FK_RestaurantToType_Restaurant" FromRole="RestaurantToType" ToRole="Restaurant" />
+  </EntityType>
+  <EntityType Name="FoodSearch">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="RestaurantId" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="RestaurantImg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Double" />
+    <Property Name="RestaurantAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantPhone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="Latlng" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Mon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Tue" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Wed" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Thu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Fri" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sat" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sun" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PlaceId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantId" Type="Int32" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Cost" Type="Double" />
+    <Property Name="ImgBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_RestaurantToType_FoodType">
+    <End Role="FoodType" Type="Self.FoodType" Multiplicity="0..1" />
+    <End Role="RestaurantToType" Type="Self.RestaurantToType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodType">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="RestaurantToType">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MemberToRestaurant_Members">
+    <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="MemberToRestaurant" Type="Self.MemberToRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="MemberToRestaurant">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MemberToRestaurant_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="MemberToRestaurant" Type="Self.MemberToRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="MemberToRestaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RestaurantToType_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="RestaurantToType" Type="Self.RestaurantToType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="RestaurantToType">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoodTourDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="FoodTypes" EntityType="Self.FoodType" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="MemberToRestaurants" EntityType="Self.MemberToRestaurant" />
+    <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+    <EntitySet Name="RestaurantToTypes" EntityType="Self.RestaurantToType" />
+    <EntitySet Name="FoodSearches" EntityType="Self.FoodSearch" />
+    <AssociationSet Name="FK_RestaurantToType_FoodType" Association="Self.FK_RestaurantToType_FoodType">
+      <End Role="FoodType" EntitySet="FoodTypes" />
+      <End Role="RestaurantToType" EntitySet="RestaurantToTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MemberToRestaurant_Members" Association="Self.FK_MemberToRestaurant_Members">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="MemberToRestaurant" EntitySet="MemberToRestaurants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MemberToRestaurant_Restaurant" Association="Self.FK_MemberToRestaurant_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="MemberToRestaurant" EntitySet="MemberToRestaurants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RestaurantToType_Restaurant" Association="Self.FK_RestaurantToType_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="RestaurantToType" EntitySet="RestaurantToTypes" />
+    </AssociationSet>
+    <EntitySet Name="Messages" EntityType="FoodTourDBModel.Message" />
+    <AssociationSet Name="FK_Message_Message" Association="FoodTourDBModel.FK_Message_Message">
+      <End Role="Message" EntitySet="Messages" />
+      <End Role="Message1" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Message_Members" Association="FoodTourDBModel.FK_Message_Members">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Message_Restaurant" Association="FoodTourDBModel.FK_Message_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <EntitySet Name="Blogs" EntityType="FoodTourDBModel.Blog" />
+    <AssociationSet Name="FK_Blog_Members" Association="FoodTourDBModel.FK_Blog_Members">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Blog" EntitySet="Blogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Blog_Restaurant" Association="FoodTourDBModel.FK_Blog_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="Blog" EntitySet="Blogs" />
+    </AssociationSet>
+    <EntitySet Name="NewRestaurants" EntityType="FoodTourDBModel.NewRestaurant" />
+    <AssociationSet Name="FK_NewRestaurant_Members" Association="FoodTourDBModel.FK_NewRestaurant_Members">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="NewRestaurant" EntitySet="NewRestaurants" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="MessageId" />
+    </Key>
+    <Property Name="MessageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RestaurantId" Type="Int32" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="Context" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Double" />
+    <NavigationProperty Name="Member" Relationship="FoodTourDBModel.FK_Message_Members" FromRole="Message" ToRole="Member" />
+    <NavigationProperty Name="Restaurant" Relationship="FoodTourDBModel.FK_Message_Restaurant" FromRole="Message" ToRole="Restaurant" />
+  </EntityType>
+  <Association Name="FK_Message_Message">
+    <End Type="FoodTourDBModel.Message" Role="Message" Multiplicity="1" />
+    <End Type="FoodTourDBModel.Message" Role="Message1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Message">
+        <PropertyRef Name="MessageId" />
+      </Principal>
+      <Dependent Role="Message1">
+        <PropertyRef Name="MessageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Message_Members">
+    <End Type="FoodTourDBModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="FoodTourDBModel.Message" Role="Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Message_Restaurant">
+    <End Type="FoodTourDBModel.Restaurant" Role="Restaurant" Multiplicity="0..1" />
+    <End Type="FoodTourDBModel.Message" Role="Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Blog">
+    <Key>
+      <PropertyRef Name="BlogId" />
+    </Key>
+    <Property Name="BlogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="RestaurantId" Type="Int32" />
+    <Property Name="BlogContext" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Member" Relationship="FoodTourDBModel.FK_Blog_Members" FromRole="Blog" ToRole="Member" />
+    <NavigationProperty Name="Restaurant" Relationship="FoodTourDBModel.FK_Blog_Restaurant" FromRole="Blog" ToRole="Restaurant" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Blog_Members">
+    <End Type="FoodTourDBModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="FoodTourDBModel.Blog" Role="Blog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="Blog">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Blog_Restaurant">
+    <End Type="FoodTourDBModel.Restaurant" Role="Restaurant" Multiplicity="0..1" />
+    <End Type="FoodTourDBModel.Blog" Role="Blog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="Blog">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="NewRestaurant">
+    <Key>
+      <PropertyRef Name="newId" />
+    </Key>
+    <Property Name="newId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RestaurantName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantPhone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="RestaurantImg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Mon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Tue" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Wed" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Thu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Fri" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sat" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sun" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MemberId" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="FoodTourDBModel.FK_NewRestaurant_Members" FromRole="NewRestaurant" ToRole="Member" />
+    <Property Name="ImgBytes" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Review" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TypeId" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_NewRestaurant_Members">
+    <End Type="FoodTourDBModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="FoodTourDBModel.NewRestaurant" Role="NewRestaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="NewRestaurant">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

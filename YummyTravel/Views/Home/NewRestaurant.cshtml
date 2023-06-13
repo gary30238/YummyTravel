@@ -1,0 +1,858 @@
+﻿
+@{
+    ViewBag.Title = "NewRestaurant";
+}
+
+<script>
+    if ("@TempData["text"]" != "") {
+        alert("@TempData["text"]");
+    }
+    function onLoadFile() {
+
+        var getFile = document.getElementById("img");
+
+        // 利用檔案陣列長度與檔案類型，來判斷是否有上傳檔案且類型為圖片檔
+        if (getFile.files.length != 0 && getFile.files[0].type.match(/image.*/)) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var imgArea = document.getElementById("imgArea");
+                // 設定imgArea圖片檔案路徑
+                imgArea.src = e.target.result;
+            };
+            reader.onerror = function (e) {
+                console.log("無法讀取圖片檔!");
+            }
+            // 讀取二進位檔案
+            reader.readAsDataURL(getFile.files[0]);
+        } else {
+            console.log("上傳的檔案非圖片檔!");
+        }
+    }
+</script>
+<form method="post" action="" enctype = "multipart/form-data">
+    <div class="d1 text-center">
+        <h1 class="text-primary">新增店家</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 text-center border">
+            <h4 class="my-2 text-primary">店家資訊</h4>
+            <div class="col-xs-12 input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="name">店名</span>
+                </div>
+                <input value="@TempData["name"]" name="name" type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="col-xs-12 input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="address">地址</span>
+                </div>
+                <input value="@TempData["address"]" name="address" type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="col-xs-12 input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="phone">電話</span>
+                </div>
+                <input value="@TempData["phone"]" name="phone" type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="col-xs-12 input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">分類</span>
+                </div>
+                <select class="custom-select mr-sm-2 ml-2" id="typeId" name="typeId">
+                    <option value="" selected>請選擇餐廳類別</option>
+                    <option value="1">火鍋</option>
+                    <option value="2">早午餐</option>
+                    <option value="3">小吃</option>
+                    <option value="4">餐酒館</option>
+                    <option value="5">精緻高級</option>
+                    <option value="6">甜點</option>
+                    <option value="7">燒烤</option>
+                    <option value="8">日式料理</option>
+                    <option value="9">義式料理</option>
+                    <option value="10">中式料理</option>
+                    <option value="11">韓式料理</option>
+                    <option value="12">泰式料理</option>
+                    <option value="13">美式料理</option>
+                    <option value="14">港式料理</option>
+                    <option value="15">冰品飲料</option>
+                    <option value="16">宵夜</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center border">
+            <h4 class="my-2 text-primary">營業時間</h4>
+            <div id="mon" name="mon" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期一：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="monStartTime" name="monStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="monEndTime" name="monEndTime">
+                    <option value="0" selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <span></span>
+            </div>
+            <div id="tue" name="tue" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期二：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="tueStartTime" name="tueStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="tueEndTime" name="tueEndTime">
+                    <option selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+            </div>
+            <div id="wed" name="wed" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期三：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="wedStartTime" name="wedStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="wedEndTime" name="wedEndTime">
+                    <option selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+            </div>
+            <div id="tue" name="tue" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期四：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="thuStartTime" name="thuStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="thuEndTime" name="thuEndTime">
+                    <option selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+            </div>
+            <div id="fri" name="fri" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期五：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="friStartTime" name="friStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="friEndTime" name="friEndTime">
+                    <option selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+            </div>
+            <div id="sat" name="sat" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期六：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="satStartTime" name="satStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="satEndTime" name="satEndTime">
+                    <option selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+            </div>
+            <div id="sun" name="sun" class="form-inline justify-content-center mb-2">
+                <p class="my-auto">星期日：</p>
+                <select class="custom-select mr-sm-2 ml-2" id="sunStartTime" name="sunStartTime">
+                    <option value="" selected>開始時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+                <p class="my-auto">-</p>
+                <select class="custom-select mr-sm-2 ml-2" id="sunEndTime" name="sunEndTime">
+                    <option selected>結束時間</option>
+                    <option value="00：00">00：00</option>
+                    <option value="00：30">00：30</option>
+                    <option value="00：30">01：00</option>
+                    <option value="00：30">01：30</option>
+                    <option value="00：30">02：00</option>
+                    <option value="00：30">02：30</option>
+                    <option value="00：30">03：00</option>
+                    <option value="00：30">03：30</option>
+                    <option value="00：30">04：00</option>
+                    <option value="00：30">04：30</option>
+                    <option value="00：30">05：00</option>
+                    <option value="00：30">05：30</option>
+                    <option value="00：30">06：00</option>
+                    <option value="00：30">06：30</option>
+                    <option value="00：30">07：00</option>
+                    <option value="00：30">07：30</option>
+                    <option value="00：30">08：00</option>
+                    <option value="00：30">08：30</option>
+                    <option value="00：30">09：00</option>
+                    <option value="00：30">09：30</option>
+                    <option value="00：30">10：00</option>
+                    <option value="00：30">10：30</option>
+                    <option value="00：30">11：00</option>
+                    <option value="00：30">11：30</option>
+                    <option value="00：30">12：00</option>
+                    <option value="00：30">12：30</option>
+                    <option value="00：30">13：00</option>
+                    <option value="00：30">13：30</option>
+                    <option value="00：30">14：00</option>
+                    <option value="00：30">14：30</option>
+                    <option value="00：30">15：00</option>
+                    <option value="00：30">15：30</option>
+                    <option value="00：30">16：00</option>
+                    <option value="00：30">16：30</option>
+                    <option value="00：30">17：00</option>
+                    <option value="00：30">17：30</option>
+                    <option value="00：30">18：00</option>
+                    <option value="00：30">18：30</option>
+                    <option value="00：30">19：00</option>
+                    <option value="00：30">19：30</option>
+                    <option value="00：30">20：00</option>
+                    <option value="00：30">20：30</option>
+                    <option value="00：30">21：00</option>
+                    <option value="00：30">21：30</option>
+                    <option value="00：30">22：00</option>
+                    <option value="00：30">22：30</option>
+                    <option value="00：30">23：00</option>
+                    <option value="00：30">23：30</option>
+                    <option value="00：30">24：00</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center border">
+            <h4 class="my-2 text-primary">店家圖片</h4>
+            <div><input value="@TempData["img"]" onchange="onLoadFile()" id="img" name="img" type="file" accept="image/png, image/jpeg, image/gif, image/jpg"
+       aria-describedby="inputGroupFileAddon04"></div>
+            <div class="my-3"><img style="max-height:250px" id="imgArea" src="" alt=""></div>
+        </div>
+        <div class="col-lg-12">
+            <div class="input-group-append justify-content-center">
+                <button class="btn btn-outline-secondary mt-3" type="submit" id="inputGroupFileAddon04">送出</button>
+            </div>
+        </div>
+    </div>
+</form>
+

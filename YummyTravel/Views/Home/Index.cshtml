@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "首頁";
+}
+<!-- 輪播開始 -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        @{
+            <div class="carousel-item active">
+                <a href="/Home/Page3/@ViewBag.topRestaurant[0].RestaurantId">
+                    <img class="d-block w-100 obj-fit" src="~/img/top1.jpg" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>@ViewBag.topRestaurant[0].RestaurantName</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/Home/Page3/@ViewBag.topRestaurant[1].RestaurantId">
+                    <img class="d-block w-100 obj-fit" src="~/img/top2.jpg" alt="Second slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>@ViewBag.topRestaurant[1].RestaurantName</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="/Home/Page3/@ViewBag.topRestaurant[2].RestaurantId">
+                    <img class="d-block w-100 obj-fit" src="~/img/top3.jpg" alt="Second slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>@ViewBag.topRestaurant[2].RestaurantName</h5>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!-- 輪播結束 -->
+<br>
+<h1 class="title" style="text-align:center">依類型分類</h1>
+<br>
+
+<!-- 小卡開始 -->
+<!-- 小卡第一區 -->
+<div class="row">
+    @*<div class="card-deck m-1">
+        <div class="card">*@
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <a href="/Home/Page2/1">
+            <img class="card-img" src="~/img/hotpot.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">火鍋</h4>
+            </div>
+        </a>
+    </div>
+
+    @*<div class="card">*@
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <a href="/Home/Page2/8">
+            <img class="card-img" src="~/img/jpnfood.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">日式料理</h4>
+            </div>
+        </a>
+    </div>
+    @*<div class="card">*@
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <a href="/Home/Page2/7">
+            <img class="card-img" src="~/img/BBQ.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">燒烤</h4>
+            </div>
+        </a>
+    </div>
+    <!-- 小卡第二區 -->
+    @*<div class="card-deck m-1">
+        <div class="card">*@
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <a href="/Home/Page2/11">
+            <img class="card-img" src="~/img/koreafood.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">韓式料理</h4>
+            </div>
+        </a>
+    </div>
+    @*<div class="card">*@
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <a href="/Home/Page2/10">
+            <img class="card-img" src="~/img/chfood.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">中式料理</h4>
+            </div>
+        </a>
+    </div>
+    @*<div class="card">*@
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <a href="/Home/Page2/13">
+            <img class="card-img" src="~/img/dessert.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">甜點</h4>
+            </div>
+        </a>
+    </div>
+</div>
+<!-- 小卡結束 -->
+<!-- 小卡開始 -->
+<div class="row">
+    <div class="col-lg-12 col-md-6 m-auto">
+        <h1 class="title mb-4" style="text-align:center">本周熱門精選</h1>
+    </div>
+    @{
+        for (int i = 0; i < 3; i++)
+        {
+            <div class="col-lg-4 col-md-6 mb-4 text-center">
+                @*<div class="card">*@
+                <a href="/Home/Page3/@Model[i].RestaurantId">
+                    <img class="card-img card-size w-100" src="@Model[i].RestaurantImg" alt="Card image cap">
+                    <div class="card-body">
+                        <h4>@Model[i].RestaurantName</h4>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+</div>
+
+<!-- 小卡第二區 -->
+<div class="row">
+    <div class="col-lg-12 col-md-6 m-auto title-border">
+        <h1 class="title mb-4" style="text-align:center">新進美食推薦</h1>
+    </div>
+    @{
+        for (int i = 3; i < 6; i++)
+        {
+            @*<div class="card">*@
+            <div class="col-lg-4 col-md-6 mb-4 text-center">
+                <a href="/Home/Page3/@Model[i].RestaurantId">
+                    <img class="card-img card-size" src="@Model[i].RestaurantImg" alt="Card image cap">
+                    <div class="card-body">
+                        <h4>@Model[i].RestaurantName</h4>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+</div>
+<br />
+<!-- 小卡結束 -->
+<script type="text/javascript">
+    $("img").lazyload();
+</script>

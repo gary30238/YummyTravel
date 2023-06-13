@@ -1,0 +1,513 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="~/Content/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css" rel="stylesheet">
+    <title>@ViewBag.Title - 美食之旅</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 字體 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/config.js"></script>
+    <script type="text/javascript" src="~/Scripts/rwd-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="~/css/rwd-table.min.css">
+    <script>
+        $(function () {
+            var restaurantTags = [];
+            @{
+                using (YummyTravel.Models.FoodTourDBEntities db = new YummyTravel.Models.FoodTourDBEntities()) {
+                    var query = from o in db.Restaurants select o;
+                    var dataRestaurant = query.ToList();
+                    foreach (var item in dataRestaurant) {
+                        @:restaurantTags.push(`${htmldecode("@item.RestaurantName")}`);
+                    }
+                }
+            }
+
+            $("#tags").autocomplete({
+                source:restaurantTags
+            });
+        });
+        function htmlencode(s) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(s));
+        return div.innerHTML;
+        }
+        function htmldecode(s) {
+            var div = document.createElement('div');
+            div.innerHTML = s;
+            return div.innerText || div.textContent;
+        }
+    </script>
+    <script>
+        $(function () {
+            var resultId = "@ViewContext.RouteData.Values["id"]";
+            var resultPage = "@ViewBag.page";
+            if (resultId != "") {
+                $("#actionResult").attr("value", "@ViewContext.RouteData.Values["action"]/@ViewContext.RouteData.Values["id"]");
+            }
+            if (resultPage != "") {
+                $("#actionResult").attr("value", "@ViewContext.RouteData.Values["action"]?page=@ViewBag.page");
+            }
+        });
+		//點忘記密碼時關掉登入的Modal
+        $(function () {
+            $("#forgotModal").on('click', function () {
+                $("#LoginModal").removeClass('show');
+                $(".modal-backdrop").remove();
+                $("#LoginModal").attr('style','display:none');
+            });
+            $("forgotCancel").on('click', function () {
+                $(".modal-backdrop").remove();
+            });
+            $("#ui-id-1").addClass("overflow-auto");
+            $("#ui-id-1").attr("style","height:400px")
+        });
+    </script>
+    @{
+        if (TempData["message"] != null)
+        {
+            <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["message"]));
+            alert(message);
+            </script>
+        }
+    }
+</head>
+
+<body>
+    <!-- 導覽列開始 -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="~/Home/Index"><img src="~/img/Logo.png" height="70" alt="美食之旅" /></a>
+        @{
+            TimeZoneInfo TPZone = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime NOWTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TPZone);
+            string now = NOWTime.ToString("HH");
+            int nowHour = Convert.ToInt32(now);
+            if (nowHour >= 6 && nowHour < 12)
+            {
+                <a class="navbar-brand">早安 @Session["str"]</a>
+            }
+            else if (nowHour >= 12 && nowHour < 18)
+            {
+                <a class="navbar-brand">午安 @Session["str"]</a>
+            }
+            else
+            {
+                <a class="navbar-brand">您好 @Session["str"]</a>
+            }
+        }
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end"
+             id="navbarSupportedContent">
+            <form method="post" action="/Home/Index">
+                <div class="form-inline my-lg-0 justify-content-end input-group">
+                    <input id="tags" name="tags" class="form-control"
+                           type="search"
+                           placeholder="搜尋美食"
+                           aria-label="Search"
+                           value="@TempData["tags"]" />
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-success my-sm-0 mr-2" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <div class="dropdown form-inline my-2 my-lg-0 justify-content-end mr-2">
+                <button class="btn btn-outline-success dropdown-toggle pr-1"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    餐廳分類
+                </button>
+                <div class="dropdown-menu overflow-auto" aria-labelledby="dropdownMenuButton" style="height:400px">
+                    <a class="dropdown-item" href="/Home/Page2/1">火鍋</a>
+                    <a class="dropdown-item" href="/Home/Page2/2">早午餐</a>
+                    <a class="dropdown-item" href="/Home/Page2/3">小吃</a>
+                    <a class="dropdown-item" href="/Home/Page2/4">餐酒館</a>
+                    <a class="dropdown-item" href="/Home/Page2/5">精緻高級</a>
+                    <a class="dropdown-item" href="/Home/Page2/6">甜點</a>
+                    <a class="dropdown-item" href="/Home/Page2/7">燒烤</a>
+                    <a class="dropdown-item" href="/Home/Page2/8">日式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/9">義式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/10">中式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/11">韓式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/12">泰式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/13">美式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/14">港式料理</a>
+                    <a class="dropdown-item" href="/Home/Page2/15">冰品飲料</a>
+                    <a class="dropdown-item" href="/Home/Page2/16">宵夜</a>
+                </div>
+            </div>
+            <div class="dropdown form-inline my-2 my-lg-0 justify-content-end mr-2">
+                <button class="btn btn-outline-success dropdown-toggle pr-1"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    地區分類
+                </button>
+                <div class="dropdown-menu overflow-auto" aria-labelledby="dropdownMenuButton" style="height:400px">
+                    <a class="dropdown-item" href="/Home/Page2/0/中區">中區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/東區">東區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/西區">西區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/西屯區">西屯區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/南區">南區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/南屯區">南屯區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/北區">北區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/北屯區">北屯區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/豐原區">豐原區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/大里區">大里區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/太平區">太平區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/清水區">清水區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/沙鹿區">沙鹿區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/大甲區">大甲區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/東勢區">東勢區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/梧棲區">梧棲區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/烏日區">烏日區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/神岡區">神岡區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/大肚區">大肚區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/大雅區">大雅區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/后里區">后里區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/霧峰區">霧峰區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/潭子區">潭子區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/龍井區">龍井區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/外埔區">外埔區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/和平區">和平區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/石岡區">石岡區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/大安區">大安區</a>
+                    <a class="dropdown-item" href="/Home/Page2/0/新社區">新社區</a>
+                </div>
+            </div>
+            @{
+                if (string.IsNullOrEmpty(Convert.ToString(Session["memberID"])))
+                {
+                    <div class="form-inline justify-content-end my-2">
+                        <a href="" onmouseout="this.style.color = 'forestgreen';" onmouseover="this.style.color = '#FFFFFF';" style="color:forestgreen" class="btn btn-outline-success my-2 my-sm-0 mr-2" data-toggle="modal" data-target="#SigninModal">註冊</a>
+                    </div>
+                    <div class="form-inline justify-content-end my-2">
+                        <a href="" onmouseout="this.style.color = 'forestgreen';" onmouseover="this.style.color = '#FFFFFF';" style="color:forestgreen" class="btn btn-outline-success my-2 my-sm-0 mr-2" data-toggle="modal" data-target="#LoginModal">登入</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="dropdown form-inline my-2 my-lg-0 justify-content-end mr-2">
+                        <button class="btn btn-outline-success dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButton"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            我的
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/Home/MyRestaurant">我的店家</a>
+                            <a class="dropdown-item" href="/Home/Member">我的小屋</a>
+                        </div>
+                    </div>
+                    <div class="form-inline justify-content-end my-2">
+                        <a class="btn btn-outline-success my-sm-0 mr-2" href="/Home/NewRestaurant">店家專區</a>
+                    </div>
+                    <div class="form-inline justify-content-end">
+                        <a href="" onmouseout="this.style.color = 'forestgreen';" onmouseover="this.style.color = '#FFFFFF';" style="color:forestgreen" class="btn btn-outline-success my-2 my-sm-0 mr-2" data-toggle="modal" data-target="#LogoutModal">登出</a>
+                    </div>
+                }
+                if (Convert.ToString(Session["str"]) == "管理者")
+                {
+                    <div class="form-inline justify-content-end my-2">
+                        <a class="btn btn-outline-success mr-2" href="/Home/AdminReview">
+                            管理者
+                            @{
+                                using (YummyTravel.Models.FoodTourDBEntities db = new YummyTravel.Models.FoodTourDBEntities())
+                                {
+                                    var query = from o in db.NewRestaurants where o.Review == "review" select o;
+                                    <span class="badge badge-pill badge-light">@query.Count()</span>
+                                }
+                            }
+                        </a>
+                    </div>
+                }
+            }
+            <div class="form-inline justify-content-end my-2">
+                @*<a onmouseout="this.style.color = 'forestgreen';" onmouseover="this.style.color = '#FFFFFF';" style="color:forestgreen" class="btn btn-outline-success my-2 my-sm-0 mr-2" data-toggle="modal" data-target="#LineModal">加入Line@@</a>*@
+                <a onmouseout="this.style.color = 'forestgreen';" onmouseover="this.style.color = '#FFFFFF';" style="color:forestgreen" class="btn btn-outline-success my-2 my-sm-0 mr-2" href="https://line.me/R/ti/p/%40914hxeqg">加入Line@@</a>
+
+            </div>
+            <input id="memberId" type="hidden" value="@Session["memberID"]" />
+        </div>
+    </nav>
+
+    <!-- 導覽列結束 -->
+    <div class="container-fluid body-content">
+        @RenderBody()
+    </div>
+
+    <!-- 頁腳 -->
+    <div class="footer">
+        <p>&copy; @DateTime.Now.Year - Yummy Travel</p>
+        <a href="mailto:YummyTravelgg@gmail.com">聯絡我們：YummyTravelgg@gmail.com</a>
+    </div>
+    <!-- 頁腳 -->
+    <!-- Login對話盒 -->
+    <div id="LoginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="container-fluid body-content modal-content">
+                <form class="form-horizontal" method="post" action="~/Home/LogIn">
+                    <fieldset>
+                        <!-- 判斷當前頁面 -->
+                        <input id="actionResult" name="actionResult" type="hidden" value="@ViewContext.RouteData.Values["action"]/@ViewContext.RouteData.Values["id"]@ViewBag.page" />
+                        <!-- Form Name -->
+                        <legend class="pt-2">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </legend>
+                        <h4 class="text-center text-primary">會員登入</h4>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="control-label" for="account">帳號</label>
+                            <div class="">
+                                <input value="@Session["tempaccount"]" id="account" name="account" type="email" placeholder="sample@gmail.com" class="form-control input-md" required="">
+                                @*<span class="help-block small">請輸入電子信箱</span>*@
+                            </div>
+                        </div>
+                        <!-- Password input-->
+                        <div class="form-group">
+                            <label class="control-label" for="password">密碼</label>
+                            <div class="">
+                                <input id="password" name="password" type="password" placeholder="" class="form-control input-md" required="">
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="control-label" for="submitbtn"></label>
+                            <div class="text-center">
+                                <button id="submitbtn" name="submitbtn" class="btn btn-primary">送出</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                                <span id="forgotModal" data-toggle="modal" data-target="#ForgotModal" class="btn btn-secondary">忘記密碼</span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Login對話盒 -->
+    <!-- Forgot對話盒 -->
+    <div id="ForgotModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="container-fluid body-content modal-content">
+                <form class="form-horizontal" method="post" action="~/Home/Forgot">
+                    <fieldset>
+                        <!-- 判斷當前頁面 -->
+                        <input id="actionResult" name="actionResult" type="hidden" value="@ViewContext.RouteData.Values["action"]/@ViewContext.RouteData.Values["id"]@ViewBag.page" />
+                        <!-- Form Name -->
+                        <legend>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </legend>
+                        <h4 class="text-center">忘記密碼</h4>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="control-label" for="account">帳號</label>
+                            <div class="">
+                                <input value="@Session["tempaccount"]" id="account" name="account" type="email" placeholder="sample@gmail.com" class="form-control input-md" required="">
+                                @*<span class="help-block">請輸入電子信箱</span>*@
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="control-label" for="submitbtn"></label>
+                            <div class="text-center">
+                                <button id="submitbtn" name="submitbtn" class="btn btn-primary">送出</button>
+                                <button id="forgotCancel" type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Forgot對話盒 -->
+    <!-- Signin對話盒 -->
+    <div id="SigninModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="container-fluid body-content modal-content">
+                <form class="form-horizontal" method="post" action="~/Home/SignIn">
+                    <fieldset>
+                        <!-- 判斷當前頁面 -->
+                        <input id="actionResult" name="actionResult" type="hidden" value="@ViewContext.RouteData.Values["action"]/@ViewContext.RouteData.Values["id"]@ViewBag.page" />
+                        <!-- Form Name -->
+                        <legend>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </legend>
+                        <h4 class="text-center">會員申請</h4>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="control-label" for="account">帳號</label>
+                            <div class="">
+                                <input value="@Session["tempaccount"]" id="account" name="account" type="email" placeholder="sample@gmail.com" class="form-control input-md" required="">
+                                @*<span class="help-block">請輸入電子信箱</span>*@
+                            </div>
+                        </div>
+                        <!-- Password input-->
+                        <div class="form-group">
+                            <label class="control-label" for="password">密碼</label>
+                            <div class="">
+                                <input id="password" name="password" type="password" placeholder="" class="form-control input-md" required="">
+                            </div>
+                        </div>
+                        <!-- Password input-->
+                        <div class="form-group">
+                            <label class="control-label" for="checkpwdinput">再輸入一次密碼</label>
+                            <div class="">
+                                <input id="checkpwdinput" name="checkpwdinput" type="password" placeholder="" class="form-control input-md" required="">
+                            </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="control-label" for="nickname">暱稱</label>
+                            <div class="">
+                                <input value="" id="nickname" name="nickname" type="text" placeholder="請勿超過6個中文字" class="form-control input-md" required="">
+                                @*<span class="help-block"></span>*@
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="control-label" for="submitbtn"></label>
+                            <div class="text-center">
+                                <button id="submitbtn" name="submitbtn" class="btn btn-primary">送出</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Signin對話盒 -->
+    <!-- Logout對話盒 -->
+    <div id="LogoutModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="container-fluid body-content modal-content">
+                <form class="form-horizontal" method="post" action="~/Home/LogOut">
+                    <fieldset>
+                        <!-- 判斷當前頁面 -->
+                        <input id="actionResult" name="actionResult" type="hidden" value="@ViewContext.RouteData.Values["action"]/@ViewContext.RouteData.Values["id"]@ViewBag.page" />
+                        <!-- Form Name -->
+                        <legend>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </legend>
+                        <!-- Button (Double) -->
+                        <h4 class="text-center text-danger">登出確認</h4>
+                        <h6>確定要登出您的帳號嗎？</h6>
+                        <div class="form-group text-center">
+                            <button type="submit" id="okbtn" name="okbtn" class="btn btn-success">確定</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Logout對話盒 -->
+    <!-- 加入LINE對話盒 -->
+    <div id="LineModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="container-fluid body-content modal-content">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend>
+                        LINE QR CODE
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </legend>
+                    <!-- Button (Double) -->
+                    <h6>歡迎加入 Line@@</h6>
+                    <div class="LyWrap">
+                        <!--HEADER-AREA-->
+                        <header class="LyHead" role="banner">
+                            <div class="MdGHD01Head">
+                                <div class="mdGHD01Wrap">
+                                    <h1><a style="font-weight:bolder;color:forestgreen" href="/">LINE</a></h1>
+                                    <!--/mdGHD01Wrap-->
+                                </div>
+                                <!--/MdGHD01Head-->
+                            </div>
+                            <!--/LyHead-->
+                        </header>
+                        <!--/HEADER-AREA-->
+                        <!--CONTENTS-AREA-->
+                        <div class="LyContents" role="main">
+                            <div class="MdQrSuccess">
+                                <p style="text-align:center" class="mdQrCode"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6AQAAAACgl2eQAAABqklEQVR42u2ZUWrEMAxEBT5AjuSr+0g5QEDVzDhZw7b9KP3YAYe0uOrbD2FJI2kjf39GbGADG/gbMKKeY+TZ21mHrPMFU3gB9XMd2c5exobzqD9lNwLKqeuYvwsIHuC4H1B3BE8JdFsAIUc7MEfgCblKHLn8U0x+MqD0v9b3u/rw2cAsunA2ekwf32u1AVD2Cjm+gSCks1ZAFS6pSeU+rqmYir22yKIFkMiXjtxRBqWSqHsBUEMmPpOlPMV/40gvICUitNO7+khfGy0LgCEHHy/YBwSFBy8gT9Wu8YhLuSlPfQBmCl9gtCMCXyHnAUjNSxnRukdXD78UMQ8AIcdIw63FHEOoLE4A56Yuf/FQWdYWxQJA+ZKnujgW5FhDzgC4x6gpiKHYW8XdAph2aAr0UYmTboDuiy1WZ99LfTncAE6yWi8kxZ3A8AJaviZZluXZelkBd3Cx/LbU6LEO5haARtqZ+8vmp3sBOVdtI16LhRFugBYjrGPB/SE1cYlJL+AZzNkuDkcg7wEw78DzAubajXck+7PwMQKU/nOYoj5ql2gF7G+jNrCB/wa+ANTx8Xj/YfifAAAAAElFTkSuQmCC" alt=""></p>
+                                <p class="mdQrTxt01">透過行動條碼加入LINE好友 </p>
+                                <p class="mdQrTxt02">請在LINE應用程式上開啟「好友」分頁，點選畫面右上方用來加入好友的圖示，<br>接著點選「行動條碼」，然後掃描此行動條碼。</p>
+                                <ul class="mdQrLink">
+                                    <li><a href="https://line.me">進一步瞭解LINE </a></li>
+                                    <li><a href="https://line.me/download">立即下載  </a></li>
+                                </ul>
+                                <!--MdQrSuccess-->
+                            </div>
+                            <!--/LyContents-->
+                        </div>
+                        <!--/CONTENTS-AREA-->
+                        <!--/LyWrap-->
+                    </div>
+                    <!--SCRIPT-->
+                    <!--/SCRIPT-->
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <!-- /Line對話盒 -->
+</body>
+
+</html>
+
